@@ -95,11 +95,14 @@ local function split_tcp_data(segment_buffer, packet_info)
     local smpp_raw_data = segment_buffer(total_offset, buffer_len - total_offset) -- get raw data bytes
     window:append(string.format("smpp data = %s\n",tostring(smpp_raw_data))) --DEBUG    
 	local is_last = false
-    local start_smpp_offset = 0
+    local start_smpp_offset = 0 
+    local counter = 0
     window:append("split called \n")
-    window:append("[pack started] \n")
+    window:append(string.format("tcp segment %d\n [pack started] \n",packet_info.number))
     while (not is_last) -- for each smpp packet 
         do
+        counter = counter + 1 
+        window:append(string.format("smpp packet %d in pack\n",counter))
         window:append("inside while\n")
         if (start_smpp_offset >= smpp_raw_data:len()) then
             is_last = true
